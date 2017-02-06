@@ -1,0 +1,208 @@
+/*
+body, div, table, tr, td, dl, { border: 1px solid; border-color: #000000; }
+*/
+
+/*
+ * Colors:
+ *   Main green  #317023
+ *   Light green #cbd8c2
+ *   Dark gray   #404040
+ *   Medium gray #808080
+ *   Light gray  #e8e8e8
+ *   Parchment   #f5f2d0
+ */
+
+/* Set main column width to 480px if the screen is wider than that */
+@media only screen and (min-width: 640px) {
+	body {
+		max-width: 640px;
+	}
+}
+
+body {
+	/* Layout */
+	width: 100%;
+	margin: 0 auto;
+
+	/* Appearance */
+	background-color: #f5f2d0;
+	font-family: "Archivo Narrow";
+	font-size: 24px;
+}
+
+/**************** cms.php ****************/
+
+.itemSepSameFeed {
+	/* Layout */
+	margin-top: 16px;
+	margin-bottom: 1px;
+	clear: left;
+	height: 1px;
+}
+
+.itemSepTop {
+	/* Border */
+	border-bottom: solid thin;
+	border-color: #a0a0a0;
+
+	/* Layout */
+	margin-top: 32px;
+	margin-bottom: 1px;
+	clear: left;
+	height: 1px;
+}
+
+.itemSep {
+	/* Border */
+	border-bottom: solid thin;
+	border-color: #a0a0a0;
+
+	/* Layout */
+	margin-top: 32px;
+	margin-bottom: 1px;
+}
+
+.feedIcon {
+	/* Layout */
+	float: left;
+}
+
+img {
+	/* Layout */
+	margin-right: 8px;
+}
+
+.feedTitle {
+	/* Layout */
+	float: left;
+
+	/* Appearance */
+	font-size: 16px;
+	color: #101010;
+	text-align: left;
+}
+
+.itemPubDate {
+	/* Layout */
+	float: right;
+	margin-right: 8px;
+
+	/* Appearance */
+	font-size: 16px;
+	color: #317023;
+	text-align: right;
+}
+
+.itemTitle {
+	/* Layout */
+	clear: left;
+	margin-left: 20px;
+	margin-right: 8px;
+
+	/* Appearance */
+	font-weight: bold;
+	text-align: left;
+}
+
+.itemDesc {
+	/* Layout */
+	margin-left: 20px;
+	margin-right: 8px;
+
+	/* Appearance */
+	font-family: serif;
+	font-size: 20px;
+	text-align: justify;
+	text-indent: 20px;;
+}
+
+/**************** settings.php ****************/
+
+#addFeed {
+	/* Layout */
+	position: relative;
+	margin: 0 auto;
+	padding-top: 32px;
+}
+
+.cellTitle {
+	float: left;
+	font-size: 18px;
+	padding-top: 8px;
+}
+
+.cellLink {
+	/* font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace; */
+	font-size: 14px;
+}
+
+.cellButton {
+	width: 100px;
+}
+
+/**************** nav.php ****************/
+
+#navWrapper {
+	/* Layout */
+	position: relative;
+	margin: 0 auto;
+	padding-top: 32px;
+	padding-bottom: 16px;
+}
+
+#navWrapper ul {
+	list-style: none;
+	position: relative;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+#navWrapper ul a {
+	display: block;
+	text-decoration: none;
+	font-size: 20px;
+	line-height: 32px;
+	padding: 0 20px;
+}
+
+#navWrapper ul li {
+	position: relative;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+
+#navWrapper ul li:hover {
+	color: #000000;
+	background: #ffffff;
+}
+
+#navWrapper ul ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background: #ffffff;
+	padding: 0;
+}
+
+#navWrapper ul ul li {
+	float: none;
+	width: 300px;
+}
+
+#navWrapper ul ul a {
+	line-height: 120%;
+	padding: 10px 15px;
+}
+
+#navWrapper ul li:hover > ul {
+	display: block;
+}
+
+#navWrapper ul li li:hover {
+	border-left: solid 2px;
+	border-color: #317023;
+}
