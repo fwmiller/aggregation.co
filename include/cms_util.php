@@ -39,27 +39,22 @@ class CmsItem {
 		}
 
 		// Feed favicon.ico
-		$url = parse_url($this->feedLink);
-		$favicon = $url["scheme"] .  "://" .
-			$url["host"] .  "/favicon.ico";
+		$url = preg_replace('/^https?:\/\//', '', $this->feedLink);
+		if ($url != "") {
+			$imgurl =
+				"https://www.google.com/s2/favicons?domain=";
 
-		try {
-			$array = get_headers($favicon);
-			$string = $array[0];
-			if(!strpos($string,"200")) {
-				echo "<div class=\"feedIcon\"><img src=\"" .
-					"http://aggregation.co/favicon.ico" .
-					"\" type=\"image/x-icon\"></div>";
+			$imgurl .= $url;
 
-				return;
-			}
-
-		} catch (Exception $e) {
-
-		}
-		echo "<div class=\"feedIcon\"><img src=\"" .
-			$favicon .
+			echo "<div class=\"feedIcon\">";
 			"\" type=\"image/x-icon\"></div>";
+			echo '<img src="';
+			echo $imgurl;
+			echo '" width="16" height="16" />';	
+			echo '</div>';
+		}
+
+
 	}
 
 	private function FeedTitle($firstForFeedLink)
