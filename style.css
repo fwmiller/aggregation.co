@@ -30,6 +30,10 @@ body {
 	font-size: 24px;
 }
 
+a {
+	text-decoration: none;
+}
+
 /**************** cms.php ****************/
 
 .itemSepSameFeed {
@@ -65,10 +69,6 @@ body {
 .feedIcon {
 	/* Layout */
 	float: left;
-}
-
-img {
-	/* Layout */
 	margin-right: 8px;
 }
 
@@ -160,7 +160,6 @@ img {
 
 #navWrapper ul a {
 	display: block;
-	text-decoration: none;
 	font-size: 20px;
 	line-height: 32px;
 	padding: 0 20px;
