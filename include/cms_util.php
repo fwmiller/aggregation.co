@@ -67,7 +67,10 @@ class CmsItem {
 		if (($this->feedTitle != NULL) &&
 		    (strlen($this->feedTitle) > 0)) {
 			echo "<div class=\"feedTitle\">" .
-				$this->feedTitle . "</div>";
+				"<a href=http://aggregation.co?feed=" .
+					$this->feedLink . ">" . 
+				$this->feedTitle .
+				"</a></div>";
 		}
 	}
 

@@ -6,9 +6,21 @@ require("include/rss_util.php");
 require("include/cms_util.php");
 require("include/nav.php");
 
-/* Load all RSS items associated with the user's feeds list */
+/*
+ * If a specific feed is specified then only get the RSS items
+ * associated with that feed
+ */
+
+
+/* Otherwise, load all RSS items associated with the user's feeds list */
 /*$rssItems = FetchRSSItems($db, $_SESSION['id']); */
-$rssItems = FetchCachedRSSItems($db, $_SESSION['id']);
+/*$rssItems = FetchCachedRSSItems($db, $_SESSION['id'], "http://avc.com");*/
+
+if (isset($_GET['feed'])) {
+	$rssItems = FetchCachedRSSItems($db, $_SESSION['id'], $_GET['feed']);
+} else {
+	$rssItems = FetchCachedRSSItems($db, $_SESSION['id'], NULL);
+}
 
 /* Display each item */
 $rcnt = count($rssItems);
@@ -37,12 +49,18 @@ function FetchRSSItems($db, $id)
  * server maintains a cache of all the items associated with all the
  * feeds of all the users locally.  This routine queries this global
  * database of items based on the user's identity.  This is quicker
- * but the cache may be out of date by a short period of time.
+ * but the cache may be out of date by a short period of time with various
+ * feeds.
  */
-function FetchCachedRSSItems($db, $id)
+function FetchCachedRSSItems($db, $id, $feedLink)
 {
-	$query = "SELECT * FROM items WHERE id=" . $id;
-	$rows = Query($db, $query);
+	if ($feedLink != NULL) {
+		$query = "SELECT * FROM items WHERE id=" . $id . " AND feedLink=\"" . $feedLink . "\"";
+		$rows = Query($db, $query);
+	} else {
+		$query = "SELECT * FROM items WHERE id=" . $id;
+		$rows = Query($db, $query);
+	}
 	return LoadCachedItems($rows);
 }
 
