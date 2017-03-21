@@ -23,7 +23,7 @@ if (isset($_GET['add'])) {
 
 		Query($db, $query);
 	}
-	header("location: settings.php");
+	header("location: feeds.php");
 }
 
 // Get all the user's feeds
@@ -62,16 +62,17 @@ if (isset($_GET['delete'])) {
 				$_SESSION['id'] .  " AND link='" .
 				$t['link'] .  "'";
 			Query($db, $query);
-			header("location: settings.php");
+			header("location: feeds.php");
 		}
 	}
-	// header("location: settings.php");
+	// header("location: feeds.php");
 }
 
 ?> 
 
-<!-- Add feed form -->
-<form id="addFeed" action="settings.php" method="get">
+<center>
+
+<form id="addFeed" action="feeds.php" method="get">
 <table>
   <tr valign="middle">
     <td align="right">Feed URL:</td>
@@ -81,16 +82,15 @@ if (isset($_GET['delete'])) {
 </table>
 </form>
 
-<!-- List user's RSS feeds -->
-<!-- <div><b>RSS Feeds</b></div> -->
-
 <table>
+
 <?php foreach ($titles as $title) { ?>
   <tr>
-    <td><div class="cellTitle"><?php echo $title['title']; ?></div></td>
+    <td><div class="cellSep"></div>
+    <div class="cellTitle"><?php echo $title['title']; ?></div></td>
 
     <td rowspan="2" valign="center"><div class="cellButton">
-      <form action="settings.php" method="get">
+      <form action="feeds.php" method="get">
         <input type="hidden" name="delete"
 		value="<?php echo $title['link'] ?>" />
         <input type="submit" value="Delete" />
@@ -102,6 +102,8 @@ if (isset($_GET['delete'])) {
     <td></td>
   </tr>
 <?php } ?>
+
 </table>
+</center>
 
 <?php require("include/footer.php"); ?>
