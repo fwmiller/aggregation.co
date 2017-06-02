@@ -1,96 +1,80 @@
 <?php
-require("include/header.php");
 require("include/db.php");
-require("include/login_check.php");
-require("include/rss_util.php");
-require("include/cms_util.php");
+require("include/header.php");
 require("include/nav.php");
+require("include/rss_util.php");
 
-/*
- * If a specific feed is specified then only get the RSS items
- * associated with that feed
- */
-
-
-/* Otherwise, load all RSS items associated with the user's feeds list */
-/*$rssItems = FetchRSSItems($db, $_SESSION['id']); */
-/*$rssItems = FetchCachedRSSItems($db, $_SESSION['id'], "http://avc.com");*/
-
+$query = "SELECT * FROM items";
 if (isset($_GET['feed'])) {
-	$rssItems = FetchCachedRSSItems($db, $_SESSION['id'], $_GET['feed']);
-} else {
-	$rssItems = FetchCachedRSSItems($db, $_SESSION['id'], NULL);
+	$query .= " WHERE id=" . $_GET['feed'];
+}
+$rows = Query($db, $query);
+$rssItems = LoadCachedItems($rows);
+
+// Display each RSS item
+$prev = NULL;
+foreach ($rssItems as $item) {
+	DisplayItem($prev, $item);
+	$prev = $item;
 }
 
-/* Display each item */
-$rcnt = count($rssItems);
-for ($r = 0; $r < $rcnt; $r++)
+function DisplayItem($prev, $item)
 {
-	if ($r == 0) {
-		DisplayItem($r, $rssItems[$r], NULL);
-	} else {
-		DisplayItem($r, $rssItems[$r], $rssItems[$r - 1]);
+    echo "<article>";
+
+    // Separator (or not) and feed title
+    if ($prev == NULL || $prev['feedTitle'] != $item['feedTitle'] ) {
+	echo "<div class=\"itemSep\"></div>\n";
+
+	// Feed favicon.ico
+	$url = preg_replace('/^https?:\/\//', '', $item['feedLink']);
+	if ($url != "") {
+		$imgurl = "https://www.google.com/s2/favicons?domain=";
+		$imgurl .= $url;
+
+		echo "<div class=\"feedIcon\">";
+		"\" type=\"image/x-icon\"></div>\n";
+		echo '<img src="';
+		echo $imgurl;
+		echo '" width="16" height="16" />';
+		echo "</div>\n";
 	}
-}
 
-/*
- * Load RSS items by fetching them from their Internet RSS feed directly.
- * This is more time consuming but provides fresh results.
- */
-function FetchRSSItems($db, $id)
-{
-	$query = "SELECT * FROM feeds WHERE id=" . $id;
-	$rows = Query($db, $query);
-	return LoadItems($rows);
-}
-
-/*
- * Load RSS items by fetching them the local cache of RSS items.  The
- * server maintains a cache of all the items associated with all the
- * feeds of all the users locally.  This routine queries this global
- * database of items based on the user's identity.  This is quicker
- * but the cache may be out of date by a short period of time with various
- * feeds.
- */
-function FetchCachedRSSItems($db, $id, $feedLink)
-{
-	if ($feedLink != NULL) {
-		$query = "SELECT * FROM items WHERE id=" . $id . " AND feedLink=\"" . $feedLink . "\"";
-		$rows = Query($db, $query);
-	} else {
-		$query = "SELECT * FROM items WHERE id=" . $id;
-		$rows = Query($db, $query);
+	// Feed title
+	if (($item['feedTitle'] != NULL) &&
+	    (strlen($item['feedTitle']) > 0)) {
+		echo "<span class=\"feedTitle\">" .
+			"<a href=\"http://aggregation.co?feed=" .
+			$item['id'] . "\">" .  $item['feedTitle'] .
+			"</a></span>";
 	}
-	return LoadCachedItems($rows);
-}
+    }
+    // Item pub date
+    date_default_timezone_set("America/Denver");
+    echo "<span class=\"itemPubDate\">" .
+	date("M j  g:ia", strtotime($item['itemPubDate'])) .
+	"</span>\n";
 
-/* Display item based on internal format */
-function DisplayItem($count, $item, $previtem)
-{
-	echo "<div id=\"item\">";
+    // Item title
+    echo "<div class=\"itemTitle\">";
 
-	$cmsItem = new CmsItem();
-	if ($count == 0)
-		$cmsItem->first = TRUE;
+    if (($item['itemTitle'] != NULL) && (strlen($item['itemTitle']) > 0)) {
 
-	$cmsItem->feedLink = $item["feedLink"];
-	$cmsItem->feedTitle = $item["feedTitle"];
+        if ($item['itemLink'] != NULL)
+	    echo "<a href=\"" . $item['itemLink'] . "\">";
 
-	date_default_timezone_set("America/Denver");
-	$cmsItem->pubDate = date("M j  g:ia", strtotime($item["itemPubDate"]));
+	echo $item['itemTitle'];
 
-	$cmsItem->itemLink = $item["itemLink"];
-	$cmsItem->itemTitle = $item["itemTitle"];
-	$cmsItem->itemDesc = $item["itemDesc"];
+        if ($item['itemLink'] != NULL)
+	    echo "</a>";
 
-	if ($previtem == NULL ||
-	    $item["feedLink"] != $previtem["feedLink"]) {
-		$cmsItem->GenerateHtml(TRUE);
-	} else {
-		$cmsItem->GenerateHtml(FALSE);
-	}
-	echo "</div>";
+    }
+    echo "</div>";
+
+    // Item description
+    echo "<div class=\"itemDesc\">" . $item['itemDesc'] . "</div>\n";
+
+    echo "</article>\n";
 }
 
 require("include/footer.php");
-?>
