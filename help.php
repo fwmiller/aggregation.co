@@ -10,6 +10,25 @@ require("include/nav.php");
 takes you to a list of the feeds that are merged into the main news
 page.</div>
 
+<div class="help">In the following figure, there is a list of four news
+items.  Each item has a <b>Feed Filter Link</b>.  If you click this link, the
+main news page will be filtered to have only stories from this feed.  The
+first item is an example of an item with no title.</div>
+
+<div class="help">
+<center><img width="400px" src="image/MainNewsPage.png"/></center>
+</div>
+
+<div class="help">The remaining items in this example have titles that
+are presented as <b>Item Title Links</b>.  If you click on these links,
+you will go to the story on the site that hosts the RSS feed.  This
+means you leave the aggregation.co site and must use the browser back
+arrow to return to the news feed.</div>
+
+<div class="help">Note the last two items in this example are from the
+same feed.  When this occurs chronologically in the aggregation, no
+horizontal separator is used and the Feed Title Link is not repeated.</div>
+
 <?php
 require("include/footer.php");
 ?>
