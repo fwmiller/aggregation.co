@@ -10,10 +10,11 @@ require("include/nav.php");
 takes you to a list of the feeds that are merged into the main news
 page.</div>
 
-<div class="help">In the following figure, there is a list of four news
-items.  Each item has a <b>Feed Filter Link</b>.  If you click this link, the
-main news page will be filtered to have only stories from this feed.  The
-first item is an example of an item with no title.</div>
+<div class="help">The following figure is an excerpt from an example of
+the main news page, there is a list of four news items.  Each item has
+a <b>Feed Filter Link</b>.  If you click this link, the main news page
+will be filtered to have only stories from this feed.  The first item
+is an example of an item with no title.</div>
 
 <div class="help">
 <center><img width="400px" src="image/MainNewsPage.png"/></center>
@@ -27,7 +28,7 @@ arrow to return to the news feed.</div>
 
 <div class="help">Note the last two items in this example are from the
 same feed.  When this occurs chronologically in the aggregation, no
-horizontal separator is used and the Feed Title Link is not repeated.</div>
+horizontal separator is used and the Feed Filter Link is not repeated.</div>
 
 <?php
 require("include/footer.php");
