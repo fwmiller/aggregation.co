@@ -4,6 +4,11 @@ require("include/header.php");
 require("include/nav.php");
 require("include/rss_util.php");
 
+echo "<div id=\"content\">";
+
+// Display each RSS item
+echo "<div id=\"content-left\">";
+
 $query = "SELECT * FROM items";
 if (isset($_GET['feed'])) {
 	$query .= " WHERE id=" . $_GET['feed'];
@@ -11,12 +16,48 @@ if (isset($_GET['feed'])) {
 $rows = Query($db, $query);
 $rssItems = LoadCachedItems($rows);
 
-// Display each RSS item
 $prev = NULL;
 foreach ($rssItems as $item) {
 	DisplayItem($prev, $item);
 	$prev = $item;
 }
+
+echo "</div>";
+echo "<div id=\"content-middle\">";
+
+$query = "SELECT * FROM items";
+if (isset($_GET['feed'])) {
+	$query .= " WHERE id=" . $_GET['feed'];
+}
+$rows = Query($db, $query);
+$rssItems = LoadCachedItems($rows);
+
+$prev = NULL;
+foreach ($rssItems as $item) {
+	DisplayItem($prev, $item);
+	$prev = $item;
+}
+
+echo "</div>";
+echo "<div id=\"content-right\">";
+
+$query = "SELECT * FROM items";
+if (isset($_GET['feed'])) {
+	$query .= " WHERE id=" . $_GET['feed'];
+}
+$rows = Query($db, $query);
+$rssItems = LoadCachedItems($rows);
+
+$prev = NULL;
+foreach ($rssItems as $item) {
+	DisplayItem($prev, $item);
+	$prev = $item;
+}
+
+echo "</div>";
+
+echo "</div>";
+
 
 function DisplayItem($prev, $item)
 {

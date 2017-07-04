@@ -50,14 +50,25 @@ function LoadItems($id, $feed)
 	echo "<div>feedTitle: " . $rss->channel->title . "</div>";
 	echo "<div>" . count($rss) . " items</div>";
 
+	if ($rss->channel->item)
+		$items = $rss->channel->item;
+	else {
+		/* Assume the feed is Atom and start over */
+		$contents = file_get_contents($feed);
+		//$contents = preg_replace("/\<.*:/", "<", $contents);
+
+		try {
+			$rss = simplexml_load_string($contents);
+		} catch (Exception $e) {
+			echo "<div>Load atom feed failed \"" . $feed .
+				"\"</div>\n";
+			return;
+		}
 echo "<pre>";
 print_r($rss);
 echo "</pre>";
-
-	if (!($rss->channel->item))
 		$items = $rss->item;
-	else
-		$items = $rss->channel->item;
+	}
 
 	foreach ($items as $item) {
 		$item = array(
