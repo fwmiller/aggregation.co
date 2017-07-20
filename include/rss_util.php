@@ -95,12 +95,12 @@ function LoadCachedItems($items)
 	$rssItems = array();
 	foreach ($items as $row) {
 		$id = $row['id'];
-		$feedTitle = substr($row['feedTitle'], 1, -1);
+		$feedTitle = $row['feedTitle'];
 		$feedLink = $row['feedLink'];
-		$itemTitle = substr($row['itemTitle'], 1, -1);
+		$itemTitle = $row['itemTitle'];
 		$itemPubDate = $row['itemPubDate'];
-		$itemLink = substr($row['itemLink'], 1, -1);
-		$itemDesc = substr($row['itemDesc'], 1, -1);
+		$itemLink = $row['itemLink'];
+		$itemDesc = $row['itemDesc'];
 
 		$item = array(
 			"id" => $id,
