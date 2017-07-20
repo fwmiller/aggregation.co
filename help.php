@@ -5,6 +5,16 @@ require("include/nav.php");
 
 <div class="help">This is a curated RSS aggregator.</div>
 
+<div class="help">As the curator, I choose which feeds are included. I
+also decide when they change, without notice.  I live in Denver, Colorado
+so the local news will be from there.  I am not responsible for the content,
+I simply aggregate feeds.</div>
+
+<div class="help">I can't find any websites I like but I'd like to have
+an online newspaper I can go to.  I basically wrote it for my own personal
+use but anyone can look at it anytime.  No Javascript, no ads, no tracking
+of anything.  That's old school, but, enjoy!</div>
+
 <div class="help">The top of each page contains a navigation menu.  The
 <b>News</b> link takes you to the main news page.  The <b>Feeds</b> link
 takes you to a list of the feeds that are merged into the main news
