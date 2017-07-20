@@ -4,60 +4,41 @@ require("include/header.php");
 require("include/nav.php");
 require("include/rss_util.php");
 
-echo "<div id=\"content\">";
+echo "<div id=\"content\">\n";
+echo "<div id=\"content-left\">\n";
 
-// Display each RSS item
-echo "<div id=\"content-left\">";
+$query = "SELECT items.id AS id,feedTitle,feedLink,itemTitle,itemPubDate,itemLink,itemDesc FROM feeds,items WHERE feeds.displayColumn=1 AND feeds.id=items.id";
+DisplayColumn($db, $query);
 
-$query = "SELECT * FROM items";
-if (isset($_GET['feed'])) {
-	$query .= " WHERE id=" . $_GET['feed'];
+echo "</div>\n";
+echo "<div id=\"content-middle\">\n";
+
+$query = "SELECT items.id AS id,feedTitle,feedLink,itemTitle,itemPubDate,itemLink,itemDesc FROM feeds,items WHERE feeds.displayColumn=2 AND feeds.id=items.id";
+DisplayColumn($db, $query);
+
+echo "</div>\n";
+echo "<div id=\"content-right\">\n";
+
+$query = "SELECT items.id AS id,feedTitle,feedLink,itemTitle,itemPubDate,itemLink,itemDesc FROM feeds,items WHERE feeds.displayColumn=3 AND feeds.id=items.id";
+DisplayColumn($db, $query);
+
+echo "</div>\n";
+echo "</div>\n";
+
+function DisplayColumn($db, $query)
+{
+	if (isset($_GET['feed'])) {
+		$query .= " WHERE id=" . $_GET['feed'];
+	}
+	$rows = Query($db, $query);
+	$rssItems = LoadCachedItems($rows);
+
+	$prev = NULL;
+	foreach ($rssItems as $item) {
+		DisplayItem($prev, $item);
+		$prev = $item;
+	}
 }
-$rows = Query($db, $query);
-$rssItems = LoadCachedItems($rows);
-
-$prev = NULL;
-foreach ($rssItems as $item) {
-	DisplayItem($prev, $item);
-	$prev = $item;
-}
-
-echo "</div>";
-echo "<div id=\"content-middle\">";
-
-$query = "SELECT * FROM items";
-if (isset($_GET['feed'])) {
-	$query .= " WHERE id=" . $_GET['feed'];
-}
-$rows = Query($db, $query);
-$rssItems = LoadCachedItems($rows);
-
-$prev = NULL;
-foreach ($rssItems as $item) {
-	DisplayItem($prev, $item);
-	$prev = $item;
-}
-
-echo "</div>";
-echo "<div id=\"content-right\">";
-
-$query = "SELECT * FROM items";
-if (isset($_GET['feed'])) {
-	$query .= " WHERE id=" . $_GET['feed'];
-}
-$rows = Query($db, $query);
-$rssItems = LoadCachedItems($rows);
-
-$prev = NULL;
-foreach ($rssItems as $item) {
-	DisplayItem($prev, $item);
-	$prev = $item;
-}
-
-echo "</div>";
-
-echo "</div>";
-
 
 function DisplayItem($prev, $item)
 {
@@ -87,7 +68,7 @@ function DisplayItem($prev, $item)
 		echo "<span class=\"feedTitle\">" .
 			"<a href=\"http://aggregation.co?feed=" .
 			$item['id'] . "\">" .  $item['feedTitle'] .
-			"</a></span>";
+			"</a></span>\n";
 	}
     }
     // Item pub date
@@ -110,11 +91,10 @@ function DisplayItem($prev, $item)
 	    echo "</a>";
 
     }
-    echo "</div>";
+    echo "</div>\n";
 
     // Item description
     echo "<div class=\"itemDesc\">" . $item['itemDesc'] . "</div>\n";
-
     echo "</article>\n";
 }
 
