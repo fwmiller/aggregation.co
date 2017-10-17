@@ -30,6 +30,7 @@ function FeedIcon($link)
 // Create an array of links and titles
 foreach ($rows as $row) {
 	echo "<article>";
+	error_reporting(0);
 	$rss = simplexml_load_file($row['link']);
 	if ($rss) {
 		FeedIcon($row['link']);
@@ -41,10 +42,7 @@ foreach ($rows as $row) {
 			    "\">" .
 			    $row['link'] .
 			    "</a></span>\n";
-/*
-			echo "<span class=\"feedsListTitle\">" .
-			    $row['link'] . "</span>\n";
-*/
+
 		} else {
 			echo "<span class=\"feedsListTitle\">" .
 			    "<a href=\"http://aggregation.co/?feed=" .
@@ -52,16 +50,17 @@ foreach ($rows as $row) {
 			    "\">" .
 			    $rss->channel->title .
 			    "</a></span>\n";
-/*
-			echo "<span class=\"feedsListTitle\">" .
-			    $rss->channel->title . "</span>\n";
-*/
+
 		}
 		echo "<div class=\"feedsListLink\">" .  $row['link'] .
 		    "</div>\n";
-
+	
 	} else {
-		echo "<div>" . $row['link'] . " not found</div>\n";
+		echo "<span class=\"feedsListTitle\">" .
+		    "Feed not found" .
+		    "</span>\n";
+		echo "<div class=\"feedsListLink\">" .  $row['link'] .
+		    "</div>\n";
 	}
 	echo "</article>\n";
 }
